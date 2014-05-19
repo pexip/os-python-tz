@@ -1,8 +1,9 @@
 Source: python-tz
 Section: python
 Priority: optional
-Maintainer: Debian/Ubuntu Zope Team <pkg-zope-developers@lists.alioth.debian.org>
-Uploaders: Brian Sutherland <brian@vanguardistas.net>,
+Maintainer: Pexip AS <packaging@pexip.com>
+XSBC-Pexip-Original-Maintainer: Debian/Ubuntu Zope Team <pkg-zope-developers@lists.alioth.debian.org>
+XSBC-Pexip-Original-Uploaders: Brian Sutherland <brian@vanguardistas.net>,
            Fabio Tranchitella <kobold@debian.org>
 Build-Depends: debhelper (>= 7.0.50~),
                python-all (>= 2.6.6-3~),
@@ -15,6 +16,7 @@ X-Python-Version: >= 2.4
 X-Python3-Version: >= 3.1
 Vcs-Svn: svn://svn.debian.org/svn/pkg-zope/python-tz/trunk
 Vcs-Browser: http://svn.debian.org/viewsvn/pkg-zope/python-tz/trunk
+XS-Pexip-Upstream: http://ftp.debian.org/debian/ jessie
 
 Package: python-tz
 Architecture: all
