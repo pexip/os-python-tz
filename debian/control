@@ -4,12 +4,15 @@ Priority: optional
 Maintainer: Debian/Ubuntu Zope Team <pkg-zope-developers@lists.alioth.debian.org>
 Uploaders: Brian Sutherland <brian@vanguardistas.net>,
            Fabio Tranchitella <kobold@debian.org>
-Build-Depends: debhelper (>= 7.0.50~),
+Build-Depends: debhelper (>= 9~), dh-python,
                python-all (>= 2.6.6-3~),
                python3-all,
                python-setuptools,
-               python3-setuptools
-Standards-Version: 3.9.3
+               python3-setuptools,
+               python-pytest,
+               python3-pytest,
+               tzdata (>= 2017a),
+Standards-Version: 3.9.8
 Homepage: http://pypi.python.org/pypi/pytz/
 X-Python-Version: >= 2.4
 X-Python3-Version: >= 3.1

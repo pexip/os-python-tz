@@ -5,6 +5,7 @@ README.txt
 setup.py
 pytz/__init__.py
 pytz/exceptions.py
+pytz/lazy.py
 pytz/reference.py
 pytz/tzfile.py
 pytz/tzinfo.py
@@ -14,6 +15,7 @@ pytz.egg-info/dependency_links.txt
 pytz.egg-info/top_level.txt
 pytz.egg-info/zip-safe
 pytz/tests/test_docs.py
+pytz/tests/test_lazy.py
 pytz/tests/test_tzinfo.py
 pytz/zoneinfo/CET
 pytz/zoneinfo/CST6CDT
@@ -64,6 +66,7 @@ pytz/zoneinfo/iso3166.tab
 pytz/zoneinfo/localtime
 pytz/zoneinfo/posixrules
 pytz/zoneinfo/zone.tab
+pytz/zoneinfo/zone1970.tab
 pytz/zoneinfo/Africa/Abidjan
 pytz/zoneinfo/Africa/Accra
 pytz/zoneinfo/Africa/Addis_Ababa
@@ -162,6 +165,7 @@ pytz/zoneinfo/America/Edmonton
 pytz/zoneinfo/America/Eirunepe
 pytz/zoneinfo/America/El_Salvador
 pytz/zoneinfo/America/Ensenada
+pytz/zoneinfo/America/Fort_Nelson
 pytz/zoneinfo/America/Fort_Wayne
 pytz/zoneinfo/America/Fortaleza
 pytz/zoneinfo/America/Glace_Bay
@@ -292,6 +296,7 @@ pytz/zoneinfo/Antarctica/Palmer
 pytz/zoneinfo/Antarctica/Rothera
 pytz/zoneinfo/Antarctica/South_Pole
 pytz/zoneinfo/Antarctica/Syowa
+pytz/zoneinfo/Antarctica/Troll
 pytz/zoneinfo/Antarctica/Vostok
 pytz/zoneinfo/Arctic/Longyearbyen
 pytz/zoneinfo/Asia/Aden
@@ -306,10 +311,12 @@ pytz/zoneinfo/Asia/Baghdad
 pytz/zoneinfo/Asia/Bahrain
 pytz/zoneinfo/Asia/Baku
 pytz/zoneinfo/Asia/Bangkok
+pytz/zoneinfo/Asia/Barnaul
 pytz/zoneinfo/Asia/Beirut
 pytz/zoneinfo/Asia/Bishkek
 pytz/zoneinfo/Asia/Brunei
 pytz/zoneinfo/Asia/Calcutta
+pytz/zoneinfo/Asia/Chita
 pytz/zoneinfo/Asia/Choibalsan
 pytz/zoneinfo/Asia/Chongqing
 pytz/zoneinfo/Asia/Chungking
@@ -337,6 +344,7 @@ pytz/zoneinfo/Asia/Karachi
 pytz/zoneinfo/Asia/Kashgar
 pytz/zoneinfo/Asia/Kathmandu
 pytz/zoneinfo/Asia/Katmandu
+pytz/zoneinfo/Asia/Khandyga
 pytz/zoneinfo/Asia/Kolkata
 pytz/zoneinfo/Asia/Krasnoyarsk
 pytz/zoneinfo/Asia/Kuala_Lumpur
@@ -360,15 +368,13 @@ pytz/zoneinfo/Asia/Qatar
 pytz/zoneinfo/Asia/Qyzylorda
 pytz/zoneinfo/Asia/Rangoon
 pytz/zoneinfo/Asia/Riyadh
-pytz/zoneinfo/Asia/Riyadh87
-pytz/zoneinfo/Asia/Riyadh88
-pytz/zoneinfo/Asia/Riyadh89
 pytz/zoneinfo/Asia/Saigon
 pytz/zoneinfo/Asia/Sakhalin
 pytz/zoneinfo/Asia/Samarkand
 pytz/zoneinfo/Asia/Seoul
 pytz/zoneinfo/Asia/Shanghai
 pytz/zoneinfo/Asia/Singapore
+pytz/zoneinfo/Asia/Srednekolymsk
 pytz/zoneinfo/Asia/Taipei
 pytz/zoneinfo/Asia/Tashkent
 pytz/zoneinfo/Asia/Tbilisi
@@ -377,13 +383,16 @@ pytz/zoneinfo/Asia/Tel_Aviv
 pytz/zoneinfo/Asia/Thimbu
 pytz/zoneinfo/Asia/Thimphu
 pytz/zoneinfo/Asia/Tokyo
+pytz/zoneinfo/Asia/Tomsk
 pytz/zoneinfo/Asia/Ujung_Pandang
 pytz/zoneinfo/Asia/Ulaanbaatar
 pytz/zoneinfo/Asia/Ulan_Bator
 pytz/zoneinfo/Asia/Urumqi
+pytz/zoneinfo/Asia/Ust-Nera
 pytz/zoneinfo/Asia/Vientiane
 pytz/zoneinfo/Asia/Vladivostok
 pytz/zoneinfo/Asia/Yakutsk
+pytz/zoneinfo/Asia/Yangon
 pytz/zoneinfo/Asia/Yekaterinburg
 pytz/zoneinfo/Asia/Yerevan
 pytz/zoneinfo/Atlantic/Azores
@@ -473,6 +482,7 @@ pytz/zoneinfo/Etc/Universal
 pytz/zoneinfo/Etc/Zulu
 pytz/zoneinfo/Europe/Amsterdam
 pytz/zoneinfo/Europe/Andorra
+pytz/zoneinfo/Europe/Astrakhan
 pytz/zoneinfo/Europe/Athens
 pytz/zoneinfo/Europe/Belfast
 pytz/zoneinfo/Europe/Belgrade
@@ -481,6 +491,7 @@ pytz/zoneinfo/Europe/Bratislava
 pytz/zoneinfo/Europe/Brussels
 pytz/zoneinfo/Europe/Bucharest
 pytz/zoneinfo/Europe/Budapest
+pytz/zoneinfo/Europe/Busingen
 pytz/zoneinfo/Europe/Chisinau
 pytz/zoneinfo/Europe/Copenhagen
 pytz/zoneinfo/Europe/Dublin
@@ -492,6 +503,7 @@ pytz/zoneinfo/Europe/Istanbul
 pytz/zoneinfo/Europe/Jersey
 pytz/zoneinfo/Europe/Kaliningrad
 pytz/zoneinfo/Europe/Kiev
+pytz/zoneinfo/Europe/Kirov
 pytz/zoneinfo/Europe/Lisbon
 pytz/zoneinfo/Europe/Ljubljana
 pytz/zoneinfo/Europe/London
@@ -519,6 +531,7 @@ pytz/zoneinfo/Europe/Stockholm
 pytz/zoneinfo/Europe/Tallinn
 pytz/zoneinfo/Europe/Tirane
 pytz/zoneinfo/Europe/Tiraspol
+pytz/zoneinfo/Europe/Ulyanovsk
 pytz/zoneinfo/Europe/Uzhgorod
 pytz/zoneinfo/Europe/Vaduz
 pytz/zoneinfo/Europe/Vatican
@@ -543,11 +556,9 @@ pytz/zoneinfo/Indian/Reunion
 pytz/zoneinfo/Mexico/BajaNorte
 pytz/zoneinfo/Mexico/BajaSur
 pytz/zoneinfo/Mexico/General
-pytz/zoneinfo/Mideast/Riyadh87
-pytz/zoneinfo/Mideast/Riyadh88
-pytz/zoneinfo/Mideast/Riyadh89
 pytz/zoneinfo/Pacific/Apia
 pytz/zoneinfo/Pacific/Auckland
+pytz/zoneinfo/Pacific/Bougainville
 pytz/zoneinfo/Pacific/Chatham
 pytz/zoneinfo/Pacific/Chuuk
 pytz/zoneinfo/Pacific/Easter

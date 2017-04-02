@@ -1,3 +1,42 @@
+python-tz (2016.7-0.3) unstable; urgency=medium
+
+  * Non-maintainer upload.
+  * Apply patch from upstream to assume tzdata/2017a abbreviations for
+    timezones. Thanks to Graham Inggs for forwarding this to the BTS.
+    (Closes: #858133)
+    - Build-depend on tzdata 2017a, since the tests will now fail in the
+      opposite way with older tzdata
+
+ -- Simon McVittie <smcv@debian.org>  Sun, 02 Apr 2017 17:20:24 +0100
+
+python-tz (2016.7-0.2) unstable; urgency=medium
+
+  * Non-maintainer upload
+  * Simplify build, enable tests, loosely following Arnaud Fontaine's
+    suggestions
+
+ -- Hilko Bengen <bengen@debian.org>  Fri, 25 Nov 2016 12:05:08 +0100
+
+python-tz (2016.7-0.1) unstable; urgency=medium
+
+  * Non-maintainer upload
+  * New upstream version 2016.7 (Closes: #824374)
+  * Add tzdata build-dependency (Closes: #839460)
+  * Re-enable, rebase zoneinfo patch
+  * Modernize package (Closes: #674083)
+    * Bump Standards-Version
+    * Bump Debhelper version, simplify debian/rules
+
+ -- Hilko Bengen <bengen@debian.org>  Wed, 23 Nov 2016 23:55:03 +0100
+
+python-tz (2015.7+dfsg-0.1) unstable; urgency=medium
+
+  * Non-maintainer upload. (Closes: #792192)
+  * New upstream release. (Closes: #799720)
+  * Run unit tests in each stage of the build.
+
+ -- Neil Williams <codehelp@debian.org>  Sat, 20 Feb 2016 10:05:06 +0000
+
 python-tz (2012c+dfsg-0.1) unstable; urgency=medium
 
   * Non-maintainer upload.
