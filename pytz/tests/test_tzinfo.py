@@ -21,7 +21,8 @@ from pytz.tzinfo import DstTzInfo, StaticTzInfo
 
 # I test for expected version to ensure the correct version of pytz is
 # actually being tested.
-EXPECTED_VERSION='2012c'
+EXPECTED_VERSION='2016.7'
+EXPECTED_OLSON_VERSION='2016g'
 
 fmt = '%Y-%m-%d %H:%M:%S %Z%z'
 
@@ -64,8 +65,12 @@ class BasicTest(unittest.TestCase):
         self.assertEqual(EXPECTED_VERSION, pytz.__version__,
                 'Incorrect pytz version loaded. Import path is stuffed '
                 'or this test needs updating. (Wanted %s, got %s)'
-                % (EXPECTED_VERSION, pytz.__version__)
-                )
+                % (EXPECTED_VERSION, pytz.__version__))
+
+        self.assertEqual(EXPECTED_OLSON_VERSION, pytz.OLSON_VERSION,
+                'Incorrect pytz version loaded. Import path is stuffed '
+                'or this test needs updating. (Wanted %s, got %s)'
+                % (EXPECTED_OLSON_VERSION, pytz.OLSON_VERSION))
 
     def testGMT(self):
         now = datetime.now(tz=GMT)
@@ -109,6 +114,12 @@ class BasicTest(unittest.TestCase):
         eastern = pytz.timezone('US/Eastern')
         self.assertTrue(eastern is pytz.timezone(unicode('US/Eastern')))
 
+    def testStaticTzInfo(self):
+        # Ensure that static timezones are correctly detected,
+        # per lp:1602807
+        static = pytz.timezone('Etc/GMT-4')
+        self.assertTrue(isinstance(static, StaticTzInfo))
+
 
 class PicklingTest(unittest.TestCase):
 
@@ -148,7 +159,8 @@ class PicklingTest(unittest.TestCase):
         tz = pytz.timezone('Australia/Melbourne')
         p = pickle.dumps(tz)
         tzname = tz._tzname
-        hacked_p = p.replace(_byte_string(tzname), _byte_string('???'))
+        hacked_p = p.replace(_byte_string(tzname),
+                             _byte_string('?'*len(tzname)))
         self.assertNotEqual(p, hacked_p)
         unpickled_tz = pickle.loads(hacked_p)
         self.assertTrue(tz is unpickled_tz)
@@ -178,7 +190,8 @@ class PicklingTest(unittest.TestCase):
             "cpytz\n_p\np1\n(S'US/Eastern'\np2\nI-18000\n"
             "I0\nS'EST'\np3\ntRp4\n."
             ))
-        east2 = pytz.timezone('US/Eastern')
+        east2 = pytz.timezone('US/Eastern').localize(
+            datetime(2006, 1, 1)).tzinfo
         self.assertTrue(east1 is east2)
 
         # Confirm changes in name munging between 2006j and 2007c cause
@@ -186,7 +199,8 @@ class PicklingTest(unittest.TestCase):
         pap1 = pickle.loads(_byte_string(
             "cpytz\n_p\np1\n(S'America/Port_minus_au_minus_Prince'"
             "\np2\nI-17340\nI0\nS'PPMT'\np3\ntRp4\n."))
-        pap2 = pytz.timezone('America/Port-au-Prince')
+        pap2 = pytz.timezone('America/Port-au-Prince').localize(
+            datetime(1910, 1, 1)).tzinfo
         self.assertTrue(pap1 is pap2)
 
         gmt1 = pickle.loads(_byte_string(
@@ -540,7 +554,7 @@ class SamoaInternationalDateLineChange(USEasternDSTStartTestCase):
     tzinfo = pytz.timezone('Pacific/Apia')
     transition_time = datetime(2011, 12, 30, 10, 0, 0, tzinfo=UTC)
     before = {
-        'tzname': 'WSDT',
+        'tzname': 'SDT',
         'utcoffset': timedelta(hours=-10),
         'dst': timedelta(hours=1),
         }
@@ -563,8 +577,8 @@ class ReferenceUSEasternDSTEndTestCase(USEasternDSTEndTestCase):
 
     def testHourBefore(self):
         # Python's datetime library has a bug, where the hour before
-        # a daylight savings transition is one hour out. For example,
-        # at the end of US/Eastern daylight savings time, 01:00 EST
+        # a daylight saving transition is one hour out. For example,
+        # at the end of US/Eastern daylight saving time, 01:00 EST
         # occurs twice (once at 05:00 UTC and once at 06:00 UTC),
         # whereas the first should actually be 01:00 EDT.
         # Note that this bug is by design - by accepting this ambiguity
@@ -652,6 +666,23 @@ class LocalTestCase(unittest.TestCase):
         loc_time = loc_tz.localize(datetime(1945, 9, 30, 1, 0, 0), is_dst=0)
         self.assertEqual(loc_time.strftime('%Z%z'), 'EST-0500')
 
+        # Weird changes - ambiguous time (end-of-DST like) but is_dst==False
+        for zonename, ambiguous_naive, expected in [
+                ('Europe/Warsaw', datetime(1915, 8, 4, 23, 59, 59),
+                 ['1915-08-04 23:59:59 WMT+0124',
+                  '1915-08-04 23:59:59 CET+0100']),
+                ('Europe/Moscow', datetime(2014, 10, 26, 1, 30),
+                 ['2014-10-26 01:30:00 MSK+0400',
+                  '2014-10-26 01:30:00 MSK+0300'])]:
+            loc_tz = pytz.timezone(zonename)
+            self.assertRaises(pytz.AmbiguousTimeError,
+                loc_tz.localize, ambiguous_naive, is_dst=None
+                )
+            # Also test non-boolean is_dst in the weird case
+            for dst in [True, timedelta(1), False, timedelta(0)]:
+                loc_time = loc_tz.localize(ambiguous_naive, is_dst=dst)
+                self.assertEqual(loc_time.strftime(fmt), expected[not dst])
+
     def testNormalize(self):
         tz = pytz.timezone('US/Eastern')
         dt = datetime(2004, 4, 4, 7, 0, 0, tzinfo=UTC).astimezone(tz)
@@ -670,7 +701,7 @@ class LocalTestCase(unittest.TestCase):
     def testPartialMinuteOffsets(self):
         # utcoffset in Amsterdam was not a whole minute until 1937
         # However, we fudge this by rounding them, as the Python
-        # datetime library 
+        # datetime library
         tz = pytz.timezone('Europe/Amsterdam')
         utc_dt = datetime(1914, 1, 1, 13, 40, 28, tzinfo=UTC) # correct
         utc_dt = utc_dt.replace(second=0) # But we need to fudge it
@@ -810,4 +841,3 @@ def test_suite():
 if __name__ == '__main__':
     warnings.simplefilter("error") # Warnings should be fatal in tests.
     unittest.main(defaultTest='test_suite')
-
