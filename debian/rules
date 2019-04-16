@@ -5,6 +5,12 @@ export PYBUILD_NAME=tz
 %:
 	dh $@ --with=python2,python3 --buildsystem=pybuild
 
+
+override_dh_auto_install:
+	dh_auto_install
+	# Use system zoneinfo dir
+	rm -fr debian/python*-tz/usr/lib/*/dist-packages/pytz/zoneinfo
+
 override_dh_auto_test:
 	dh_auto_test -- --before-test="\
 		cp $(CURDIR)/README.txt {build_dir}; \
