@@ -1,3 +1,9 @@
+python-tz (2016.7-0.3pexip2) pexip; urgency=medium
+
+  * Python 3
+
+ -- Carl Chipperfield <carl@pexip.com>  Fri, 06 Sep 2019 09:27:41 +0100
+
 python-tz (2016.7-0.3pexip1) pexip; urgency=medium
 
   * Migrate to Stretch
