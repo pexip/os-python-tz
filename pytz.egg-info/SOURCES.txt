@@ -1,7 +1,7 @@
-CHANGES.txt
 LICENSE.txt
 MANIFEST.in
 README.txt
+setup.cfg
 setup.py
 pytz/__init__.py
 pytz/exceptions.py
@@ -63,8 +63,9 @@ pytz/zoneinfo/W-SU
 pytz/zoneinfo/WET
 pytz/zoneinfo/Zulu
 pytz/zoneinfo/iso3166.tab
-pytz/zoneinfo/localtime
+pytz/zoneinfo/leapseconds
 pytz/zoneinfo/posixrules
+pytz/zoneinfo/tzdata.zi
 pytz/zoneinfo/zone.tab
 pytz/zoneinfo/zone1970.tab
 pytz/zoneinfo/Africa/Abidjan
@@ -226,6 +227,7 @@ pytz/zoneinfo/America/Port_of_Spain
 pytz/zoneinfo/America/Porto_Acre
 pytz/zoneinfo/America/Porto_Velho
 pytz/zoneinfo/America/Puerto_Rico
+pytz/zoneinfo/America/Punta_Arenas
 pytz/zoneinfo/America/Rainy_River
 pytz/zoneinfo/America/Rankin_Inlet
 pytz/zoneinfo/America/Recife
@@ -307,6 +309,7 @@ pytz/zoneinfo/Asia/Aqtau
 pytz/zoneinfo/Asia/Aqtobe
 pytz/zoneinfo/Asia/Ashgabat
 pytz/zoneinfo/Asia/Ashkhabad
+pytz/zoneinfo/Asia/Atyrau
 pytz/zoneinfo/Asia/Baghdad
 pytz/zoneinfo/Asia/Bahrain
 pytz/zoneinfo/Asia/Baku
@@ -327,6 +330,7 @@ pytz/zoneinfo/Asia/Dhaka
 pytz/zoneinfo/Asia/Dili
 pytz/zoneinfo/Asia/Dubai
 pytz/zoneinfo/Asia/Dushanbe
+pytz/zoneinfo/Asia/Famagusta
 pytz/zoneinfo/Asia/Gaza
 pytz/zoneinfo/Asia/Harbin
 pytz/zoneinfo/Asia/Hebron
@@ -365,6 +369,7 @@ pytz/zoneinfo/Asia/Phnom_Penh
 pytz/zoneinfo/Asia/Pontianak
 pytz/zoneinfo/Asia/Pyongyang
 pytz/zoneinfo/Asia/Qatar
+pytz/zoneinfo/Asia/Qostanay
 pytz/zoneinfo/Asia/Qyzylorda
 pytz/zoneinfo/Asia/Rangoon
 pytz/zoneinfo/Asia/Riyadh
@@ -436,7 +441,6 @@ pytz/zoneinfo/Brazil/East
 pytz/zoneinfo/Brazil/West
 pytz/zoneinfo/Canada/Atlantic
 pytz/zoneinfo/Canada/Central
-pytz/zoneinfo/Canada/East-Saskatchewan
 pytz/zoneinfo/Canada/Eastern
 pytz/zoneinfo/Canada/Mountain
 pytz/zoneinfo/Canada/Newfoundland
@@ -524,6 +528,7 @@ pytz/zoneinfo/Europe/Rome
 pytz/zoneinfo/Europe/Samara
 pytz/zoneinfo/Europe/San_Marino
 pytz/zoneinfo/Europe/Sarajevo
+pytz/zoneinfo/Europe/Saratov
 pytz/zoneinfo/Europe/Simferopol
 pytz/zoneinfo/Europe/Skopje
 pytz/zoneinfo/Europe/Sofia
@@ -610,5 +615,4 @@ pytz/zoneinfo/US/Indiana-Starke
 pytz/zoneinfo/US/Michigan
 pytz/zoneinfo/US/Mountain
 pytz/zoneinfo/US/Pacific
-pytz/zoneinfo/US/Pacific-New
 pytz/zoneinfo/US/Samoa
