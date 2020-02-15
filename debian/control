@@ -19,7 +19,7 @@ X-Python-Version: >= 2.4
 X-Python3-Version: >= 3.1
 Vcs-Svn: svn://svn.debian.org/svn/pkg-zope/python-tz/trunk
 Vcs-Browser: http://svn.debian.org/viewsvn/pkg-zope/python-tz/trunk
-XS-Pexip-Upstream: http://ftp.debian.org/debian/ stretch
+XS-Pexip-Upstream: http://ftp.debian.org/debian/ buster
 
 Package: python-tz
 Architecture: all
