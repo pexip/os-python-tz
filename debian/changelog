@@ -1,3 +1,9 @@
+python-tz (2019.1-1pexip1) pexip; urgency=medium
+
+  * Migrate to Buster
+
+ -- Vincent Sanders <vince@pexip.com>  Sun, 01 Mar 2020 15:47:07 +0000
+
 python-tz (2019.1-1) unstable; urgency=medium
 
   * New upstream release
