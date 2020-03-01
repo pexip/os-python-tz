@@ -2,7 +2,10 @@ Format: http://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
 Upstream-Name: pytz
 Upstream-Contact: Stuart Bishop <stuart@stuartbishop.net>
 Source: http://pypi.python.org/pypi/pytz/
-Files-Excluded: pytz/zoneinfo/*
+
+# Files-Excluded: pytz/zoneinfo/*
+# We don't ship these files as we use the system version from tzdata instead;
+# According to tzdata, these files are in the public domain
 
 Files: *
 Copyright: (c) 2003-2009 Stuart Bishop <stuart@stuartbishop.net>

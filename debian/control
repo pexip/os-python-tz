@@ -2,10 +2,11 @@ Source: python-tz
 Section: python
 Priority: optional
 Maintainer: Pexip AS <packaging@pexip.com>
-XSBC-Pexip-Original-Maintainer: Debian/Ubuntu Zope Team <pkg-zope-developers@lists.alioth.debian.org>
-XSBC-Pexip-Original-Uploaders: Brian Sutherland <brian@vanguardistas.net>,
+XSBC-Pexip-Original-Maintainer: Debian Python Modules Team <python-modules-team@lists.alioth.debian.org>
+XSBC-Pexip-Original-Uploaders:  Alastair McKinstry <mckinstry@debian.org>,
+           Debian/Ubuntu Zope Team <pkg-zope-developers@lists.alioth.debian.org>,
            Fabio Tranchitella <kobold@debian.org>
-Build-Depends: debhelper (>= 9~), dh-python,
+Build-Depends: debhelper (>= 10~), dh-python,
                python-all (>= 2.6.6-3~),
                python3-all,
                python-setuptools,
@@ -13,12 +14,10 @@ Build-Depends: debhelper (>= 9~), dh-python,
                python-pytest,
                python3-pytest,
                tzdata (>= 2017a),
-Standards-Version: 3.9.8
+Standards-Version: 4.2.1
 Homepage: http://pypi.python.org/pypi/pytz/
-X-Python-Version: >= 2.4
-X-Python3-Version: >= 3.1
-Vcs-Svn: svn://svn.debian.org/svn/pkg-zope/python-tz/trunk
-Vcs-Browser: http://svn.debian.org/viewsvn/pkg-zope/python-tz/trunk
+Vcs-Browser: https://salsa.debian.org:/mckinstry/python-tz.git
+Vcs-Git: https://salsa.debian.org:/mckinstry/python-tz.git
 XS-Pexip-Upstream: http://ftp.debian.org/debian/ buster
 
 Package: python-tz

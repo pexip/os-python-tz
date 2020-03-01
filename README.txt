@@ -31,23 +31,18 @@ Almost all of the Olson timezones are supported.
 Installation
 ~~~~~~~~~~~~
 
-This package can either be installed from a .egg file using setuptools,
-or from the tarball using the standard Python distutils.
+This package can either be installed using ``pip`` or from a tarball using the
+standard Python distutils.
+
+If you are installing using ``pip``, you don't need to download anything as the
+latest version will be downloaded for you from PyPI::
+
+    pip install pytz
 
 If you are installing from a tarball, run the following command as an
 administrative user::
 
     python setup.py install
-
-If you are installing using setuptools, you don't even need to download
-anything as the latest version will be downloaded for you
-from the Python package index::
-
-    easy_install --upgrade pytz
-
-If you already have the .egg file, you can use that too::
-
-    easy_install pytz-2008g-py2.6.egg
 
 
 Example & Usage
@@ -87,13 +82,13 @@ localized time using the standard ``astimezone()`` method:
 Unfortunately using the tzinfo argument of the standard datetime
 constructors ''does not work'' with pytz for many timezones.
 
->>> datetime(2002, 10, 27, 12, 0, 0, tzinfo=amsterdam).strftime(fmt)
+>>> datetime(2002, 10, 27, 12, 0, 0, tzinfo=amsterdam).strftime(fmt)  # /!\ Does not work this way!
 '2002-10-27 12:00:00 LMT+0020'
 
 It is safe for timezones without daylight saving transitions though, such
 as UTC:
 
->>> datetime(2002, 10, 27, 12, 0, 0, tzinfo=pytz.utc).strftime(fmt)
+>>> datetime(2002, 10, 27, 12, 0, 0, tzinfo=pytz.utc).strftime(fmt)  # /!\ Not recommended except for UTC
 '2002-10-27 12:00:00 UTC+0000'
 
 The preferred way of dealing with times is to always work in UTC,
@@ -180,7 +175,7 @@ parameter to the ``utcoffset()``, ``dst()`` && ``tzname()`` methods.
 >>> ambiguous = datetime(2009, 10, 31, 23, 30)
 
 The ``is_dst`` parameter is ignored for most timestamps. It is only used
-during DST transition ambiguous periods to resulve that ambiguity.
+during DST transition ambiguous periods to resolve that ambiguity.
 
 >>> tz.utcoffset(normal, is_dst=True)
 datetime.timedelta(-1, 77400)
@@ -263,7 +258,7 @@ pytz custom syntax, the best you can do is make an educated guess:
 As you can see, the system has chosen one for you and there is a 50%
 chance of it being out by one hour. For some applications, this does
 not matter. However, if you are trying to schedule meetings with people
-in different timezones or analyze log files it is not acceptable. 
+in different timezones or analyze log files it is not acceptable.
 
 The best and simplest solution is to stick with using UTC.  The pytz
 package encourages using UTC for internal timezone representation by
@@ -474,9 +469,9 @@ True
 True
 >>> 'Canada/Eastern' in common_timezones
 True
->>> 'US/Pacific-New' in all_timezones
+>>> 'Australia/Yancowinna' in all_timezones
 True
->>> 'US/Pacific-New' in common_timezones
+>>> 'Australia/Yancowinna' in common_timezones
 False
 
 Both ``common_timezones`` and ``all_timezones`` are alphabetically
@@ -516,8 +511,8 @@ Internationalization - i18n/l10n
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Pytz is an interface to the IANA database, which uses ASCII names. The `Unicode  Consortium's Unicode Locales (CLDR) <http://cldr.unicode.org>`_
-project provides translations. Thomas Khyn's 
-`l18n <https://pypi.python.org/pypi/l18n>`_ package can be used to access
+project provides translations. Thomas Khyn's
+`l18n <https://pypi.org/project/l18n/>`_ package can be used to access
 these translations from Python.
 
 
@@ -538,7 +533,7 @@ Latest Versions
 
 This package will be updated after releases of the Olson timezone
 database.  The latest version can be downloaded from the `Python Package
-Index <http://pypi.python.org/pypi/pytz/>`_.  The code that is used
+Index <https://pypi.org/project/pytz/>`_.  The code that is used
 to generate this distribution is hosted on launchpad.net and available
 using git::
 
@@ -555,7 +550,7 @@ hosted there.
 Bugs, Feature Requests & Patches
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Bugs can be reported using `Launchpad <https://bugs.launchpad.net/pytz>`_.
+Bugs can be reported using `Launchpad <https://bugs.launchpad.net/pytz>`__.
 
 
 Issues & Limitations
