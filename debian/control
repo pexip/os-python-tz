@@ -18,7 +18,7 @@ Standards-Version: 4.2.1
 Homepage: http://pypi.python.org/pypi/pytz/
 Vcs-Browser: https://salsa.debian.org:/mckinstry/python-tz.git
 Vcs-Git: https://salsa.debian.org:/mckinstry/python-tz.git
-XS-Pexip-Upstream: http://ftp.debian.org/debian/ buster
+XS-Pexip-Upstream: http://deb.debian.org/debian/ bullseye
 
 Package: python-tz
 Architecture: all
