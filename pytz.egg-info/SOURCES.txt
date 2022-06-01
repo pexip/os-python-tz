@@ -1,6 +1,6 @@
 LICENSE.txt
 MANIFEST.in
-README.txt
+README.rst
 setup.cfg
 setup.py
 pytz/__init__.py
@@ -64,7 +64,6 @@ pytz/zoneinfo/WET
 pytz/zoneinfo/Zulu
 pytz/zoneinfo/iso3166.tab
 pytz/zoneinfo/leapseconds
-pytz/zoneinfo/posixrules
 pytz/zoneinfo/tzdata.zi
 pytz/zoneinfo/zone.tab
 pytz/zoneinfo/zone1970.tab
@@ -217,6 +216,7 @@ pytz/zoneinfo/America/New_York
 pytz/zoneinfo/America/Nipigon
 pytz/zoneinfo/America/Nome
 pytz/zoneinfo/America/Noronha
+pytz/zoneinfo/America/Nuuk
 pytz/zoneinfo/America/Ojinaga
 pytz/zoneinfo/America/Panama
 pytz/zoneinfo/America/Pangnirtung

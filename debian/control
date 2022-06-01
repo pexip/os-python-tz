@@ -2,33 +2,21 @@ Source: python-tz
 Section: python
 Priority: optional
 Maintainer: Pexip AS <packaging@pexip.com>
-XSBC-Pexip-Original-Maintainer: Debian Python Modules Team <python-modules-team@lists.alioth.debian.org>
+XSBC-Pexip-Original-Maintainer: Debian  Python Team <team+python@tracker.debian.org>
 XSBC-Pexip-Original-Uploaders:  Alastair McKinstry <mckinstry@debian.org>,
            Debian/Ubuntu Zope Team <pkg-zope-developers@lists.alioth.debian.org>,
            Fabio Tranchitella <kobold@debian.org>
-Build-Depends: debhelper (>= 10~), dh-python,
-               python-all (>= 2.6.6-3~),
-               python3-all,
-               python-setuptools,
+Build-Depends: debhelper-compat (= 13), 
+	       dh-sequence-python3,
+               python3-all, 
                python3-setuptools,
-               python-pytest,
                python3-pytest,
-               tzdata (>= 2017a),
-Standards-Version: 4.2.1
-Homepage: http://pypi.python.org/pypi/pytz/
-Vcs-Browser: https://salsa.debian.org:/mckinstry/python-tz.git
-Vcs-Git: https://salsa.debian.org:/mckinstry/python-tz.git
+               tzdata (>= 2020d),
+Standards-Version: 4.5.1
+Homepage: https://pypi.python.org/pypi/pytz/
+Vcs-Browser: https://salsa.debian.org/python-team/packages/python-tz
+Vcs-Git: https://salsa.debian.org/python-team/packages/python-tz.git -b debian/latest
 XS-Pexip-Upstream: http://deb.debian.org/debian/ bullseye
-
-Package: python-tz
-Architecture: all
-Depends: tzdata, ${python:Depends}, ${misc:Depends}
-Description: Python version of the Olson timezone database
- python-tz brings the Olson tz database into Python. This library allows
- accurate and cross platform timezone calculations using Python 2.3 or higher.
- It also solves the issue of ambiguous times at the end of daylight savings,
- which you can read more about in the Python Library Reference
- (datetime.tzinfo).
 
 Package: python3-tz
 Architecture: all

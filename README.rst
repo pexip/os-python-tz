@@ -45,6 +45,14 @@ administrative user::
     python setup.py install
 
 
+pytz for Enterprise
+~~~~~~~~~~~~~~~~~~~
+
+Available as part of the Tidelift Subscription.
+
+The maintainers of pytz and thousands of other packages are working with Tidelift to deliver commercial support and maintenance for the open source dependencies you use to build your applications. Save time, reduce risk, and improve code health, while paying the maintainers of the exact dependencies you use. `Learn more. <https://tidelift.com/subscription/pkg/pypi-pytz?utm_source=pypi-pytz&utm_medium=referral&utm_campaign=enterprise&utm_term=repo>`_.
+
+
 Example & Usage
 ~~~~~~~~~~~~~~~
 
@@ -177,29 +185,29 @@ parameter to the ``utcoffset()``, ``dst()`` && ``tzname()`` methods.
 The ``is_dst`` parameter is ignored for most timestamps. It is only used
 during DST transition ambiguous periods to resolve that ambiguity.
 
->>> tz.utcoffset(normal, is_dst=True)
-datetime.timedelta(-1, 77400)
->>> tz.dst(normal, is_dst=True)
-datetime.timedelta(0, 3600)
+>>> print(tz.utcoffset(normal, is_dst=True))
+-1 day, 21:30:00
+>>> print(tz.dst(normal, is_dst=True))
+1:00:00
 >>> tz.tzname(normal, is_dst=True)
 'NDT'
 
->>> tz.utcoffset(ambiguous, is_dst=True)
-datetime.timedelta(-1, 77400)
->>> tz.dst(ambiguous, is_dst=True)
-datetime.timedelta(0, 3600)
+>>> print(tz.utcoffset(ambiguous, is_dst=True))
+-1 day, 21:30:00
+>>> print(tz.dst(ambiguous, is_dst=True))
+1:00:00
 >>> tz.tzname(ambiguous, is_dst=True)
 'NDT'
 
->>> tz.utcoffset(normal, is_dst=False)
-datetime.timedelta(-1, 77400)
+>>> print(tz.utcoffset(normal, is_dst=False))
+-1 day, 21:30:00
 >>> tz.dst(normal, is_dst=False)
 datetime.timedelta(0, 3600)
 >>> tz.tzname(normal, is_dst=False)
 'NDT'
 
->>> tz.utcoffset(ambiguous, is_dst=False)
-datetime.timedelta(-1, 73800)
+>>> print(tz.utcoffset(ambiguous, is_dst=False))
+-1 day, 20:30:00
 >>> tz.dst(ambiguous, is_dst=False)
 datetime.timedelta(0)
 >>> tz.tzname(ambiguous, is_dst=False)
@@ -208,10 +216,10 @@ datetime.timedelta(0)
 If ``is_dst`` is not specified, ambiguous timestamps will raise
 an ``pytz.exceptions.AmbiguousTimeError`` exception.
 
->>> tz.utcoffset(normal)
-datetime.timedelta(-1, 77400)
->>> tz.dst(normal)
-datetime.timedelta(0, 3600)
+>>> print(tz.utcoffset(normal))
+-1 day, 21:30:00
+>>> print(tz.dst(normal))
+1:00:00
 >>> tz.tzname(normal)
 'NDT'
 
@@ -550,7 +558,13 @@ hosted there.
 Bugs, Feature Requests & Patches
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Bugs can be reported using `Launchpad <https://bugs.launchpad.net/pytz>`__.
+Bugs can be reported using `Launchpad Bugs <https://bugs.launchpad.net/pytz>`_.
+
+
+Security Issues
+~~~~~~~~~~~~~~~
+
+Reports about security issues can be made via `Tidelift <https://tidelift.com/security>`_.
 
 
 Issues & Limitations
