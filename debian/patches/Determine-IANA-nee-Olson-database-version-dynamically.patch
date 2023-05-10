@@ -1,0 +1,69 @@
+From: Benjamin Drung <benjamin.drung@canonical.com>
+Date: Mon, 27 Mar 2023 17:14:22 +0200
+Subject: Determine IANA (nee Olson) database version dynamically
+
+Forwarded: not-needed
+Signed-off-by: Benjamin Drung <benjamin.drung@canonical.com>
+---
+ pytz/__init__.py          | 13 ++++++++++++-
+ pytz/tests/test_tzinfo.py |  8 --------
+ 2 files changed, 12 insertions(+), 9 deletions(-)
+
+diff --git a/pytz/__init__.py b/pytz/__init__.py
+index 8b2fa1b..da2f206 100644
+--- a/pytz/__init__.py
++++ b/pytz/__init__.py
+@@ -12,6 +12,7 @@ import sys
+ import datetime
+ import os.path
+ import pathlib
++import re
+ import zoneinfo
+ 
+ from pytz.exceptions import AmbiguousTimeError
+@@ -23,8 +24,18 @@ from pytz.tzinfo import unpickler, BaseTzInfo
+ from pytz.tzfile import build_tzinfo
+ 
+ 
++def _read_olson_version() -> str:
++    tzdata_zi = pathlib.Path("/usr/share/zoneinfo/tzdata.zi")
++    with tzdata_zi.open(encoding="utf-8") as tzdata_zi_file:
++        line = tzdata_zi_file.readline()
++    match = re.match("^#\s*version\s*([0-9a-z]*)\s*$", line)
++    if match:
++        return match.group(1)
++    return "unknown"
++
++
+ # The IANA (nee Olson) database is updated several times a year.
+-OLSON_VERSION = '2022g'
++OLSON_VERSION = _read_olson_version()
+ VERSION = '2022.7.1'  # pip compatible version number.
+ __version__ = VERSION
+ 
+diff --git a/pytz/tests/test_tzinfo.py b/pytz/tests/test_tzinfo.py
+index 48f51b1..7db8a57 100644
+--- a/pytz/tests/test_tzinfo.py
++++ b/pytz/tests/test_tzinfo.py
+@@ -28,7 +28,6 @@ from pytz.tzinfo import DstTzInfo, StaticTzInfo  # noqa
+ # I test for expected version to ensure the correct version of pytz is
+ # actually being tested.
+ EXPECTED_VERSION = '2022.7.1'
+-EXPECTED_OLSON_VERSION = '2022g'
+ 
+ fmt = '%Y-%m-%d %H:%M:%S %Z%z'
+ 
+@@ -74,13 +73,6 @@ class BasicTest(unittest.TestCase):
+             % (EXPECTED_VERSION, pytz.__version__)
+         )
+ 
+-        self.assertEqual(
+-            EXPECTED_OLSON_VERSION, pytz.OLSON_VERSION,
+-            'Incorrect pytz version loaded. Import path is stuffed '
+-            'or this test needs updating. (Wanted %s, got %s)'
+-            % (EXPECTED_OLSON_VERSION, pytz.OLSON_VERSION)
+-        )
+-
+     def testGMT(self):
+         now = datetime.now(tz=GMT)
+         self.assertEqual(now.utcoffset(), NOTIME)

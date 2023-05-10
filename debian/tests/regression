@@ -1,0 +1,122 @@
+#!/usr/bin/python3
+
+# Copyright (C) 2012-2023 Canonical Ltd.
+# Author: Benjamin Drung <benjamin.drung@canonical.com>
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License version 3,
+# as published by the Free Software Foundation.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <http://www.gnu.org/licenses/>.
+#
+# Parts taken from
+# https://git.launchpad.net/qa-regression-testing/tree/scripts/test-tzdata.py
+
+"""Regression tests for python3-tz."""
+
+import sys
+import unittest
+from datetime import datetime, timedelta
+
+import pytz
+
+
+class TZDataTest(unittest.TestCase):
+    """Regression tests for python3-tz."""
+
+    def test_lp1965791_gaza(self) -> None:
+        """Test Gaza 2022 DST change"""
+        timezone = pytz.timezone("Asia/Gaza")
+        offset_before = timezone.localize(datetime(2022, 3, 22))
+        updated_before = timezone.localize(datetime(2022, 3, 27))
+        offset_after = timezone.localize(datetime(2022, 3, 29))
+
+        with self.subTest(testcase=offset_before):
+            self.assertEqual(offset_before.utcoffset(), updated_before.utcoffset())
+        with self.subTest(testcase=updated_before):
+            utc_offset_difference = offset_after.utcoffset() - offset_before.utcoffset()
+            self.assertEqual(utc_offset_difference, timedelta(seconds=3600))
+
+    def test_lp1986984_chile(self) -> None:
+        """Test Chile 2022 DST date"""
+        # chile dst changed from 2022/09/04 to 2022/09/11
+        timezone = pytz.timezone("America/Santiago")
+        always_before = timezone.localize(datetime(2022, 9, 1))
+        now_before = timezone.localize(datetime(2022, 9, 8))
+        always_after = timezone.localize(datetime(2022, 9, 12))
+        with self.subTest(testcase=always_before):
+            self.assertEqual(always_before.utcoffset(), now_before.utcoffset())
+        with self.subTest(testcase=now_before):
+            utc_offset_difference = always_after.utcoffset() - now_before.utcoffset()
+            self.assertEqual(utc_offset_difference, timedelta(seconds=3600))
+
+    def test_lp1992692_gaza(self) -> None:
+        """Test Gaza October 2022 DST date"""
+        # gaza dst changed from 2022/10/28 to 2022/10/29
+        timezone = pytz.timezone("Asia/Gaza")
+        offset_before = timezone.localize(datetime(2022, 10, 1))
+        updated_before = timezone.localize(datetime(2022, 10, 29))
+        offset_after = timezone.localize(datetime(2022, 11, 1))
+        # time falls back with this change
+        offset_change = -3600
+
+        with self.subTest(testcase=offset_before):
+            self.assertEqual(offset_before.utcoffset(), updated_before.utcoffset())
+        with self.subTest(testcase=updated_before):
+            utc_offset_difference = offset_after.utcoffset() - offset_before.utcoffset()
+            self.assertEqual(utc_offset_difference, timedelta(seconds=offset_change))
+
+    def test_all_timezones_count(self) -> None:
+        """Test all_timezones count to be reasonable."""
+        zones = len(pytz.all_timezones)
+        self.assertGreaterEqual(zones, 596, "less zones than 2022g-2")
+        self.assertLess(zones, round(596 * 1.1), ">10% more zones than 2022g-2")
+        self.assertEqual(len(pytz.all_timezones_set), zones)
+
+    def test_common_timezones_count(self) -> None:
+        """Test common_timezones count to be reasonable."""
+        self.assertEqual(pytz.common_timezones_set - pytz.all_timezones_set, set())
+
+    def _test_timezone(self, zone: str) -> None:
+        """Test zone to load, have a name, and have a reasonable offset."""
+        timezone = pytz.timezone(zone)
+        self.assertEqual(str(timezone), zone)
+        date = timezone.localize(datetime(2020, 10, 31, 12))
+
+        tzname = date.tzname()
+        assert tzname is not None
+        self.assertGreaterEqual(len(tzname), 3, tzname)
+        self.assertLessEqual(len(tzname), 5, tzname)
+
+        utc_offset = date.utcoffset()
+        assert utc_offset is not None
+        self.assertEqual(int(utc_offset.total_seconds()) % 900, 0)
+        self.assertLessEqual(utc_offset, timedelta(hours=14))
+
+    def test_timezones(self) -> None:
+        """Test all zones to load, have a name, and have a reasonable offset."""
+        for zone in pytz.all_timezones:
+            with self.subTest(zone=zone):
+                self._test_timezone(zone)
+
+    def test_olson_version(self) -> None:
+        """Test IANA (nee Olson) database version was successful determined."""
+        self.assertNotEqual(pytz.OLSON_VERSION, "unknown")
+        self.assertTrue(pytz.OLSON_VERSION[0].isdigit(), pytz.OLSON_VERSION)
+
+
+def main() -> None:
+    """Run unit tests in verbose mode."""
+    argv = sys.argv.copy()
+    argv.insert(1, "-v")
+    unittest.main(argv=argv)
+
+
+if __name__ == "__main__":
+    main()
