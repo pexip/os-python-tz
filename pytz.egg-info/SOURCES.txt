@@ -149,6 +149,7 @@ pytz/zoneinfo/America/Cayenne
 pytz/zoneinfo/America/Cayman
 pytz/zoneinfo/America/Chicago
 pytz/zoneinfo/America/Chihuahua
+pytz/zoneinfo/America/Ciudad_Juarez
 pytz/zoneinfo/America/Coral_Harbour
 pytz/zoneinfo/America/Cordoba
 pytz/zoneinfo/America/Costa_Rica
@@ -508,6 +509,7 @@ pytz/zoneinfo/Europe/Jersey
 pytz/zoneinfo/Europe/Kaliningrad
 pytz/zoneinfo/Europe/Kiev
 pytz/zoneinfo/Europe/Kirov
+pytz/zoneinfo/Europe/Kyiv
 pytz/zoneinfo/Europe/Lisbon
 pytz/zoneinfo/Europe/Ljubljana
 pytz/zoneinfo/Europe/London
@@ -578,6 +580,7 @@ pytz/zoneinfo/Pacific/Guadalcanal
 pytz/zoneinfo/Pacific/Guam
 pytz/zoneinfo/Pacific/Honolulu
 pytz/zoneinfo/Pacific/Johnston
+pytz/zoneinfo/Pacific/Kanton
 pytz/zoneinfo/Pacific/Kiritimati
 pytz/zoneinfo/Pacific/Kosrae
 pytz/zoneinfo/Pacific/Kwajalein
