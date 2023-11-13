@@ -17,7 +17,7 @@ packages = ['pytz']
 resources = ['zone.tab', 'locales/pytz.pot']
 for dirpath, dirnames, filenames in os.walk(os.path.join('pytz', 'zoneinfo')):
     # remove the 'pytz' part of the path
-    basepath = dirpath.split(os.path.sep, 1)[1]
+    basepath = dirpath.split(os.sep, 1)[1]
     resources.extend([os.path.join(basepath, filename) for filename in filenames])
 package_data = {'pytz': resources}
 
@@ -62,6 +62,8 @@ setup(
         'Programming Language :: Python :: 3.7',
         'Programming Language :: Python :: 3.8',
         'Programming Language :: Python :: 3.9',
+        'Programming Language :: Python :: 3.10',
+        'Programming Language :: Python :: 3.11',
         'Topic :: Software Development :: Libraries :: Python Modules',
     ],
 )

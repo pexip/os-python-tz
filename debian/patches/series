@@ -1,1 +1,3 @@
 tzdata
+Dynamically-determine-list-of-available-and-common-timezo.patch
+Determine-IANA-nee-Olson-database-version-dynamically.patch

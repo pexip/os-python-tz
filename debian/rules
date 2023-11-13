@@ -5,6 +5,12 @@ export PYBUILD_NAME=tz
 %:
 	dh $@ --buildsystem=pybuild
 
+override_dh_auto_clean:
+	rm -rf pytz/zoneinfo
+
+override_dh_auto_configure:
+	ln -s /usr/share/zoneinfo pytz/zoneinfo
+	dh_auto_configure
 
 override_dh_auto_install:
 	dh_auto_install

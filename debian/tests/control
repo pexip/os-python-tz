@@ -1,0 +1,8 @@
+Test-Command: cp -r pytz/tests "$AUTOPKGTEST_TMP" && cd "$AUTOPKGTEST_TMP" && rm -f tests/test_docs.py && touch tests/__init__.py && python3 -m unittest discover -v
+Depends: python3, python3-tz
+Restrictions: allow-stderr
+Features: test-name=unittest
+
+Tests: regression
+Depends: python3, python3-tz
+Restrictions: allow-stderr
