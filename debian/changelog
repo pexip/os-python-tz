@@ -1,3 +1,9 @@
+python-tz (2022.7.1-4pexip1) pexip-bookworm; urgency=medium
+
+  * Initial bookworm build
+
+ -- Mark Hymers <mark.hymers@pexip.com>  Thu, 16 Nov 2023 10:27:06 +0000
+
 python-tz (2022.7.1-4) unstable; urgency=medium
 
   * Update test_all_timezones_count for tzdata 2023c-4, which removed
