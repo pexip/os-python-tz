@@ -17,15 +17,16 @@ Dynamically determine `all_timezones` and `common_timezones`. For
 `common_timezones` parse `/usr/share/zoneinfo/zone1970.tab`.
 
 Bug: https://launchpad.net/bugs/207604
+Forwarded: not-needed
 Signed-off-by: Benjamin Drung <benjamin.drung@canonical.com>
 ---
- pytz/__init__.py | 942 ++-----------------------------------------------------
- 1 file changed, 22 insertions(+), 920 deletions(-)
+ pytz/__init__.py | 941 ++-----------------------------------------------------
+ 1 file changed, 21 insertions(+), 920 deletions(-)
 
-diff --git a/pytz/__init__.py b/pytz/__init__.py
-index 99bf1e4..8b2fa1b 100644
---- a/pytz/__init__.py
-+++ b/pytz/__init__.py
+Index: python-tz-2025.1/pytz/__init__.py
+===================================================================
+--- python-tz-2025.1.orig/pytz/__init__.py
++++ python-tz-2025.1/pytz/__init__.py
 @@ -11,6 +11,8 @@ on how to use these modules.
  import sys
  import datetime
@@ -44,9 +45,9 @@ index 99bf1e4..8b2fa1b 100644
      return _all_timezones_lower_to_standard.get(zone.lower()) or zone  # noqa
  
  
-@@ -512,922 +514,91 @@ def _test():
+@@ -511,1033 +513,131 @@ def _test():
+     import pytz
      return doctest.testmod(pytz)
- 
  
 +def _read_timezones_from_zone_tab() -> set[str]:
 +    timezones = set()
@@ -57,7 +58,7 @@ index 99bf1e4..8b2fa1b 100644
 +        timezones.add(line.split("\t")[2])
 +    return timezones
 +
-+
+ 
  if __name__ == '__main__':
      _test()
 -_all_timezones_unchecked = \
@@ -859,7 +860,6 @@ index 99bf1e4..8b2fa1b 100644
 - 'America/Whitehorse',
 - 'America/Winnipeg',
 - 'America/Yakutat',
-- 'America/Yellowknife',
 - 'Antarctica/Casey',
 - 'Antarctica/Davis',
   'Antarctica/DumontDUrville',
@@ -887,9 +887,8 @@ index 99bf1e4..8b2fa1b 100644
 - 'Asia/Barnaul',
 - 'Asia/Beirut',
 - 'Asia/Bishkek',
-  'Asia/Brunei',
+- 'Asia/Brunei',
 - 'Asia/Chita',
-- 'Asia/Choibalsan',
 - 'Asia/Colombo',
 - 'Asia/Damascus',
 - 'Asia/Dhaka',
@@ -979,9 +978,10 @@ index 99bf1e4..8b2fa1b 100644
   'Canada/Atlantic',
   'Canada/Central',
   'Canada/Eastern',
-@@ -1435,111 +606,40 @@ common_timezones = \
+  'Canada/Mountain',
   'Canada/Newfoundland',
-  'Canada/Pacific',
+- 'Canada/Pacific',
++'Canada/Pacific',
   'Europe/Amsterdam',
 - 'Europe/Andorra',
 - 'Europe/Astrakhan',
@@ -1091,7 +1091,7 @@ index 99bf1e4..8b2fa1b 100644
   'Pacific/Wake',
   'Pacific/Wallis',
   'US/Alaska',
-@@ -1549,8 +649,10 @@ common_timezones = \
+@@ -1547,8 +647,10 @@ common_timezones = \
   'US/Hawaii',
   'US/Mountain',
   'US/Pacific',

@@ -1,9 +1,98 @@
-python-tz (2022.7.1-4) unstable; urgency=medium
+python-tz (2025.1-3) unstable; urgency=medium
 
-  * Update test_all_timezones_count for tzdata 2023c-4, which removed
-    Asia/Hanoi again.
+  * Fix the version in breaks/replaces. Closes: #1095585
 
- -- Benjamin Drung <bdrung@debian.org>  Wed, 10 May 2023 11:35:44 +0200
+ -- Alastair McKinstry <mckinstry@debian.org>  Mon, 10 Feb 2025 12:08:51 +0000
+
+python-tz (2025.1-2) unstable; urgency=medium
+
+  * Push to unstable
+
+ -- Alastair McKinstry <mckinstry@debian.org>  Sun, 09 Feb 2025 10:02:43 +0000
+
+python-tz (2025.1-1) experimental; urgency=medium
+
+  * New upstream release
+  * Changing binary python3-tz -> python3-pytz per policy;
+    module is loaded "import pytz"
+
+ -- Alastair McKinstry <mckinstry@debian.org>  Tue, 04 Feb 2025 12:22:17 +0000
+
+python-tz (2024.2-1) unstable; urgency=medium
+
+  * New upstream release
+  * Standards-Version: 4.7.0; no changes required
+  * Clean properly to allow double-builds. Closes: #1045309
+
+ -- Alastair McKinstry <mckinstry@debian.org>  Tue, 17 Dec 2024 12:37:36 +0000
+
+python-tz (2024.1-2) unstable; urgency=medium
+
+  * Team upload.
+  * Restore patch to determine IANA database version dynamically
+
+ -- Benjamin Drung <bdrung@debian.org>  Thu, 22 Feb 2024 16:18:38 +0100
+
+python-tz (2024.1-1) unstable; urgency=medium
+
+  * New upstream release
+
+ -- Alastair McKinstry <mckinstry@debian.org>  Mon, 05 Feb 2024 07:13:11 +0000
+
+python-tz (2023.4-1) unstable; urgency=medium
+
+  * New upstream release
+
+ -- Alastair McKinstry <mckinstry@debian.org>  Thu, 01 Feb 2024 08:30:43 +0000
+
+python-tz (2023.3.post1-2) unstable; urgency=medium
+
+  * Treat regex match string as raw. Closes: #1056538, #1056246
+
+ -- Alastair McKinstry <mckinstry@debian.org>  Sun, 10 Dec 2023 08:14:00 +0000
+
+python-tz (2023.3.post1-1) unstable; urgency=medium
+
+  * New upstream release
+
+ -- Alastair McKinstry <mckinstry@debian.org>  Thu, 21 Sep 2023 11:28:43 +0100
+
+python-tz (2023.3-4) unstable; urgency=medium
+
+  * Team upload.
+  * test: Replace legacy US/Eastern by America/New_York to avoid tzdata-legacy
+  * Depend on tzdata-legacy for regression autopkgtest
+
+ -- Benjamin Drung <bdrung@debian.org>  Thu, 10 Aug 2023 14:24:44 +0200
+
+python-tz (2023.3-3) unstable; urgency=medium
+
+  * Team upload.
+  * Fix Dynamically-determine-list-of-available-and-common-timezo.patch:
+    _read_timezones_from_zone_tab() and _extra_common_timezones_set should
+    be distinct.
+  * Retore change from 2022.7.1-4: Update test_all_timezones_count for
+    tzdata 2023c-4, which removed Asia/Hanoi again.
+
+ -- Benjamin Drung <bdrung@debian.org>  Fri, 23 Jun 2023 22:10:59 +0200
+
+python-tz (2023.3-2) unstable; urgency=medium
+
+  * Push to unstable
+
+ -- Alastair McKinstry <mckinstry@debian.org>  Sun, 11 Jun 2023 11:15:15 +0100
+
+python-tz (2023.3-1) experimental; urgency=medium
+
+  * New upstream release
+
+ -- Alastair McKinstry <mckinstry@debian.org>  Fri, 02 Jun 2023 10:42:37 +0100
+
+python-tz (2023.2-1) experimental; urgency=medium
+
+  * New upstream release
+
+ -- Alastair McKinstry <mckinstry@debian.org>  Wed, 29 Mar 2023 17:17:47 +0100
 
 python-tz (2022.7.1-3) unstable; urgency=medium
 

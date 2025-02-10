@@ -1,12 +1,13 @@
 #!/usr/bin/make -f
 
-export PYBUILD_NAME=tz
+export PYBUILD_NAME=pytz
 
 %:
-	dh $@ --buildsystem=pybuild
+	dh $@ --buildsystem=pybuild --builddir=debian/build
 
 override_dh_auto_clean:
 	rm -rf pytz/zoneinfo
+	rm -rf .pybuild .pytest_cache
 
 override_dh_auto_configure:
 	ln -s /usr/share/zoneinfo pytz/zoneinfo

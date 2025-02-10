@@ -11,19 +11,29 @@ Build-Depends: debhelper-compat (= 13),
                python3-pytest,
                python3-setuptools,
                tzdata
-Standards-Version: 4.6.2
+Standards-Version: 4.7.0
 Homepage: https://pythonhosted.org/pytz/
 Vcs-Browser: https://salsa.debian.org/python-team/packages/python-tz
 Vcs-Git: https://salsa.debian.org/python-team/packages/python-tz.git -b debian/latest
 
-Package: python3-tz
+Package: python3-pytz
 Architecture: all
 Depends: tzdata, ${misc:Depends}, ${python3:Depends}
+Breaks: python3-tz (<< 2025.1-2)
+Replaces: python3-tz (<< 2025.1-2)
 Description: Python3 version of the Olson timezone database
- python-tz brings the Olson tz database into Python. This library allows
+ python3-pytz brings the Olson tz database into Python. This library allows
  accurate and cross platform timezone calculations using Python 2.3 or higher.
  It also solves the issue of ambiguous times at the end of daylight savings,
  which you can read more about in the Python Library Reference
  (datetime.tzinfo).
  .
  This package contains the Python 3 version of the library.
+
+
+Package: python3-tz
+Depends: python3-pytz, ${misc:Depends}
+Architecture: all
+Section: oldlibs
+Description: transitional package to rename python3-tz
+  This is a transitional package. It can safely be removed.
