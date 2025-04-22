@@ -3,12 +3,59 @@ Author: Kurt Roeckx <kurt@roeckx.be>
 Author: Hilko Bengen <bengen@debian.org>
 Bug-Debian: http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=416202
 Forwarded: not-needed
-Last-Update: 2018-02-14
+Last-Update: 2025-03-26
 
-Index: python-tz-2024.2/pytz/tzfile.py
+Index: python-tz-2025.2/src/pytz/__init__.py
 ===================================================================
---- python-tz-2024.2.orig/pytz/tzfile.py
-+++ python-tz-2024.2/pytz/tzfile.py
+--- python-tz-2025.2.orig/src/pytz/__init__.py
++++ python-tz-2025.2/src/pytz/__init__.py
+@@ -11,6 +11,8 @@ on how to use these modules.
+ import sys
+ import datetime
+ import os.path
++import pathlib
++import zoneinfo
+ 
+ from pytz.exceptions import AmbiguousTimeError
+ from pytz.exceptions import InvalidTimeError
+@@ -92,7 +94,7 @@ def open_resource(name):
+     if zoneinfo_dir is not None:
+         filename = os.path.join(zoneinfo_dir, *name_parts)
+     else:
+-        filename = os.path.join(os.path.dirname(__file__),
++        filename = os.path.join('/usr','share',
+                                 'zoneinfo', *name_parts)
+         if not os.path.exists(filename):
+             # http://bugs.launchpad.net/bugs/383171 - we avoid using this
+@@ -202,7 +204,7 @@ def _case_insensitive_zone_lookup(zone):
+     """case-insensitively matching timezone, else return zone unchanged"""
+     global _all_timezones_lower_to_standard
+     if _all_timezones_lower_to_standard is None:
+-        _all_timezones_lower_to_standard = dict((tz.lower(), tz) for tz in _all_timezones_unchecked)  # noqa
++        _all_timezones_lower_to_standard = dict((tz.lower(), tz) for tz in all_timezones)  # noqa
+     return _all_timezones_lower_to_standard.get(zone.lower()) or zone  # noqa
+ 
+ 
+@@ -511,6 +513,15 @@ def _test():
+     import pytz
+     return doctest.testmod(pytz)
+ 
++def _read_timezones_from_zone_tab() -> set[str]:
++    timezones = set()
++    zone_tab = pathlib.Path("/usr/share/zoneinfo/zone1970.tab")
++    for line in zone_tab.read_text(encoding="utf-8").splitlines():
++        if line.startswith("#"):
++            continue
++        timezones.add(line.split("\t")[2])
++    return timezones
++
+ 
+ if __name__ == '__main__':
+     _test()
+Index: python-tz-2025.2/src/pytz/tzfile.py
+===================================================================
+--- python-tz-2025.2.orig/src/pytz/tzfile.py
++++ python-tz-2025.2/src/pytz/tzfile.py
 @@ -125,7 +125,8 @@ def build_tzinfo(zone, fp):
  if __name__ == '__main__':
      import os.path
@@ -19,16 +66,3 @@ Index: python-tz-2024.2/pytz/tzfile.py
      tz = build_tzinfo('Australia/Melbourne',
                        open(os.path.join(base, 'Australia', 'Melbourne'), 'rb'))
      tz = build_tzinfo('US/Eastern',
-Index: python-tz-2024.2/pytz/__init__.py
-===================================================================
---- python-tz-2024.2.orig/pytz/__init__.py
-+++ python-tz-2024.2/pytz/__init__.py
-@@ -92,7 +92,7 @@ def open_resource(name):
-     if zoneinfo_dir is not None:
-         filename = os.path.join(zoneinfo_dir, *name_parts)
-     else:
--        filename = os.path.join(os.path.dirname(__file__),
-+        filename = os.path.join('/usr','share',
-                                 'zoneinfo', *name_parts)
-         if not os.path.exists(filename):
-             # http://bugs.launchpad.net/bugs/383171 - we avoid using this

@@ -9,19 +9,19 @@ Signed-off-by: Benjamin Drung <benjamin.drung@canonical.com>
  pytz/tests/test_tzinfo.py |  8 --------
  2 files changed, 12 insertions(+), 9 deletions(-)
 
-Index: python-tz-2025.1/pytz/__init__.py
+Index: python-tz-2025.2/src/pytz/__init__.py
 ===================================================================
---- python-tz-2025.1.orig/pytz/__init__.py
-+++ python-tz-2025.1/pytz/__init__.py
-@@ -12,6 +12,7 @@ import sys
- import datetime
+--- python-tz-2025.2.orig/src/pytz/__init__.py
++++ python-tz-2025.2/src/pytz/__init__.py
+@@ -13,6 +13,7 @@ import datetime
  import os.path
  import pathlib
-+import re
  import zoneinfo
++import re
  
  from pytz.exceptions import AmbiguousTimeError
-@@ -22,9 +23,17 @@ from pytz.lazy import LazyDict, LazyList
+ from pytz.exceptions import InvalidTimeError
+@@ -22,9 +23,18 @@ from pytz.lazy import LazyDict, LazyList
  from pytz.tzinfo import unpickler, BaseTzInfo
  from pytz.tzfile import build_tzinfo
  
@@ -33,36 +33,157 @@ Index: python-tz-2025.1/pytz/__init__.py
 +    if not match:
 +        return "unknown"
 +    return match.group(1)
++
  
  # The IANA (nee Olson) database is updated several times a year.
--OLSON_VERSION = '2025a'
+-OLSON_VERSION = '2025b'
 +OLSON_VERSION = _read_olson_version()
- VERSION = '2025.1'  # pip compatible version number.
+ VERSION = '2025.2'  # pip compatible version number.
  __version__ = VERSION
  
-Index: python-tz-2025.1/pytz/tests/test_tzinfo.py
+Index: python-tz-2025.2/src/pytz/tests/test_tzinfo.py
 ===================================================================
---- python-tz-2025.1.orig/pytz/tests/test_tzinfo.py
-+++ python-tz-2025.1/pytz/tests/test_tzinfo.py
-@@ -28,7 +28,6 @@ from pytz.tzinfo import DstTzInfo, Stati
- # I test for expected version to ensure the correct version of pytz is
- # actually being tested.
- EXPECTED_VERSION = '2025.1'
--EXPECTED_OLSON_VERSION = '2025a'
+--- python-tz-2025.2.orig/src/pytz/tests/test_tzinfo.py
++++ python-tz-2025.2/src/pytz/tests/test_tzinfo.py
+@@ -65,21 +65,21 @@ if sys.version_info[0] > 2:
  
- fmt = '%Y-%m-%d %H:%M:%S %Z%z'
+ class BasicTest(unittest.TestCase):
  
-@@ -74,13 +73,6 @@ class BasicTest(unittest.TestCase):
-             % (EXPECTED_VERSION, pytz.__version__)
-         )
- 
+-    def testVersion(self):
+-        # Ensuring the correct version of pytz has been loaded
+-        self.assertEqual(
+-            EXPECTED_VERSION, pytz.__version__,
+-            'Incorrect pytz version loaded. Import path is stuffed '
+-            'or this test needs updating. (Wanted %s, got %s)'
+-            % (EXPECTED_VERSION, pytz.__version__)
+-        )
+-
 -        self.assertEqual(
 -            EXPECTED_OLSON_VERSION, pytz.OLSON_VERSION,
 -            'Incorrect pytz version loaded. Import path is stuffed '
 -            'or this test needs updating. (Wanted %s, got %s)'
 -            % (EXPECTED_OLSON_VERSION, pytz.OLSON_VERSION)
 -        )
--
++    # def testVersion(self):
++    #     # Ensuring the correct version of pytz has been loaded
++    #     self.assertEqual(
++    #         EXPECTED_VERSION, pytz.__version__,
++    #         'Incorrect pytz version loaded. Import path is stuffed '
++    #         'or this test needs updating. (Wanted %s, got %s)'
++    #         % (EXPECTED_VERSION, pytz.__version__)
++    #     )
++
++    #     self.assertEqual(
++    #         EXPECTED_OLSON_VERSION, pytz.OLSON_VERSION,
++    #         'Incorrect pytz version loaded. Import path is stuffed '
++    #         'or this test needs updating. (Wanted %s, got %s)'
++    #         % (EXPECTED_OLSON_VERSION, pytz.OLSON_VERSION)
++    #     )
+ 
      def testGMT(self):
          now = datetime.now(tz=GMT)
-         self.assertEqual(now.utcoffset(), NOTIME)
+@@ -98,7 +98,7 @@ class BasicTest(unittest.TestCase):
+         # This tzinfo behavior is required to make
+         # datetime.time.{utcoffset, dst, tzname} work as documented.
+ 
+-        dst_tz = pytz.timezone('US/Eastern')
++        dst_tz = pytz.timezone('America/New_York')
+ 
+         # This information is not known when we don't have a date,
+         # so return None per API.
+@@ -106,7 +106,7 @@ class BasicTest(unittest.TestCase):
+         self.assertIsNone(dst_tz.dst(None))
+         # We don't know the abbreviation, but this is still a valid
+         # tzname per the Python documentation.
+-        self.assertEqual(dst_tz.tzname(None), 'US/Eastern')
++        self.assertEqual(dst_tz.tzname(None), 'America/New_York')
+ 
+     def clearCache(self):
+         pytz._tzinfo_cache.clear()
+@@ -116,12 +116,12 @@ class BasicTest(unittest.TestCase):
+         # and traditional strings, and that the desired singleton is
+         # returned.
+         self.clearCache()
+-        eastern = pytz.timezone(unicode('US/Eastern'))
+-        self.assertIs(eastern, pytz.timezone('US/Eastern'))
++        eastern = pytz.timezone(unicode('America/New_York'))
++        self.assertIs(eastern, pytz.timezone('America/New_York'))
+ 
+         self.clearCache()
+-        eastern = pytz.timezone('US/Eastern')
+-        self.assertIs(eastern, pytz.timezone(unicode('US/Eastern')))
++        eastern = pytz.timezone('America/New_York')
++        self.assertIs(eastern, pytz.timezone(unicode('America/New_York')))
+ 
+     def testStaticTzInfo(self):
+         # Ensure that static timezones are correctly detected,
+@@ -204,11 +204,11 @@ class PicklingTest(unittest.TestCase):
+         # where created with pytz2006j
+         east1 = pickle.loads(
+             _byte_string(
+-                "cpytz\n_p\np1\n(S'US/Eastern'\np2\nI-18000\n"
++                "cpytz\n_p\np1\n(S'America/New_York'\np2\nI-18000\n"
+                 "I0\nS'EST'\np3\ntRp4\n."
+             )
+         )
+-        east2 = pytz.timezone('US/Eastern').localize(
++        east2 = pytz.timezone('America/New_York').localize(
+             datetime(2006, 1, 1)).tzinfo
+         self.assertIs(east1, east2)
+ 
+@@ -228,7 +228,7 @@ class PicklingTest(unittest.TestCase):
+ 
+ 
+ class USEasternDSTStartTestCase(unittest.TestCase):
+-    tzinfo = pytz.timezone('US/Eastern')
++    tzinfo = pytz.timezone('America/New_York')
+ 
+     # 24 hours before DST changeover
+     transition_time = datetime(2002, 4, 7, 7, 0, 0, tzinfo=UTC)
+@@ -354,7 +354,7 @@ class USEasternDSTStartTestCase(unittest
+ 
+ 
+ class USEasternDSTEndTestCase(USEasternDSTStartTestCase):
+-    tzinfo = pytz.timezone('US/Eastern')
++    tzinfo = pytz.timezone('America/New_York')
+     transition_time = datetime(2002, 10, 27, 6, 0, 0, tzinfo=UTC)
+     before = {
+         'tzname': 'EDT',
+@@ -594,7 +594,7 @@ class ReferenceUSEasternDSTEndTestCase(U
+     def testHourBefore(self):
+         # Python's datetime library has a bug, where the hour before
+         # a daylight saving transition is one hour out. For example,
+-        # at the end of US/Eastern daylight saving time, 01:00 EST
++        # at the end of America/New_York daylight saving time, 01:00 EST
+         # occurs twice (once at 05:00 UTC and once at 06:00 UTC),
+         # whereas the first should actually be 01:00 EDT.
+         # Note that this bug is by design - by accepting this ambiguity
+@@ -612,7 +612,7 @@ class ReferenceUSEasternDSTEndTestCase(U
+ 
+ class LocalTestCase(unittest.TestCase):
+     def testLocalize(self):
+-        loc_tz = pytz.timezone('US/Eastern')
++        loc_tz = pytz.timezone('America/New_York')
+ 
+         # End of DST ambiguity check
+         loc_time = loc_tz.localize(datetime(1918, 10, 27, 1, 59, 59), is_dst=1)
+@@ -671,7 +671,7 @@ class LocalTestCase(unittest.TestCase):
+                 self.assertEqual(loc_time.strftime(fmt), expected[not dst])
+ 
+     def testNormalize(self):
+-        tz = pytz.timezone('US/Eastern')
++        tz = pytz.timezone('America/New_York')
+         dt = datetime(2004, 4, 4, 7, 0, 0, tzinfo=UTC).astimezone(tz)
+         dt2 = dt - timedelta(minutes=10)
+         self.assertEqual(
+@@ -707,8 +707,8 @@ class CommonTimezonesTestCase(unittest.T
+         self.assertIn('Europe/Bratislava', pytz.common_timezones_set)
+ 
+     def test_us_eastern(self):
+-        self.assertIn('US/Eastern', pytz.common_timezones)
+-        self.assertIn('US/Eastern', pytz.common_timezones_set)
++        self.assertIn('America/New_York', pytz.common_timezones)
++        self.assertIn('America/New_York', pytz.common_timezones_set)
+ 
+     def test_belfast(self):
+         self.assertIn('Europe/Belfast', pytz.all_timezones_set)

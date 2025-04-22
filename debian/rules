@@ -1,25 +1,33 @@
 #!/usr/bin/make -f
 
 export PYBUILD_NAME=pytz
+export PYBUILD_SYSTEM=distutils
 
 %:
-	dh $@ --buildsystem=pybuild --builddir=debian/build
+	dh $@ --buildsystem=pybuild  --sourcedir=src
 
 override_dh_auto_clean:
-	rm -rf pytz/zoneinfo
+	rm -rf src/pytz/zoneinfo
 	rm -rf .pybuild .pytest_cache
 
 override_dh_auto_configure:
-	ln -s /usr/share/zoneinfo pytz/zoneinfo
+	ln -s /usr/share/zoneinfo src/pytz/zoneinfo
 	dh_auto_configure
 
 override_dh_auto_install:
 	dh_auto_install
+	(cd src && python3 ./setup.py install --root=$(CURDIR)/debian/tmp )
 	# Use system zoneinfo dir
-	rm -fr debian/python*-tz/usr/lib/*/dist-packages/pytz/zoneinfo
+	rm -fr debian/python3-pytz/usr/lib/*/dist-packages/pytz/zoneinfo
+	# Dup accidentally inserted by pybuild
+	rm -rf debian/python3-pytz/usr/lib/python3/dist-packages/pytz/pytz
+	rm -rf debian/python3-pytz/usr/lib/python3/dist-packages/pytz/README.rst
+
+override_dh_missing:
+	@echo Ignore missing due to errors
 
 override_dh_auto_test:
 	dh_auto_test -- --before-test="\
-		cp $(CURDIR)/README.rst {build_dir}; \
-		cp -r $(CURDIR)/pytz/tests {build_dir}/pytz/" \
-		--after-test="rm -rf {build_dir}/README.rst {build_dir}/pytz/tests"
+		cp $(CURDIR)/src/README.rst {build_dir}; \
+		cp -r $(CURDIR)/src/pytz/tests {build_dir}/pytz/" \
+		--after-test="rm -rf {build_dir}/src/README.rst {build_dir}/pytz/tests"

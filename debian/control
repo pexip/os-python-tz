@@ -1,7 +1,7 @@
 Source: python-tz
 Section: python
 Priority: optional
-Maintainer: Debian  Python Team <team+python@tracker.debian.org>
+Maintainer: Debian Python Team <team+python@tracker.debian.org>
 Uploaders: Alastair McKinstry <mckinstry@debian.org>,
            Debian/Ubuntu Zope Team <pkg-zope-developers@lists.alioth.debian.org>,
            Fabio Tranchitella <kobold@debian.org>

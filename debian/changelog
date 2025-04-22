@@ -1,3 +1,18 @@
+python-tz (2025.2-2) unstable; urgency=medium
+
+  * Team upload.
+  * Fix autopkgtests to account for code moving to src/ (closes: #1103581).
+
+ -- Colin Watson <cjwatson@debian.org>  Tue, 22 Apr 2025 17:53:33 +0100
+
+python-tz (2025.2-1) unstable; urgency=medium
+
+  * New upstream release
+  * d/rules, patches: update for refactor of upstream; main code now
+    in src/ directory
+
+ -- Alastair McKinstry <mckinstry@debian.org>  Fri, 04 Apr 2025 15:51:36 +0100
+
 python-tz (2025.1-3) unstable; urgency=medium
 
   * Fix the version in breaks/replaces. Closes: #1095585
