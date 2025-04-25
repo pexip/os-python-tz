@@ -67,6 +67,7 @@ pytz/zoneinfo/leapseconds
 pytz/zoneinfo/tzdata.zi
 pytz/zoneinfo/zone.tab
 pytz/zoneinfo/zone1970.tab
+pytz/zoneinfo/zonenow.tab
 pytz/zoneinfo/Africa/Abidjan
 pytz/zoneinfo/Africa/Accra
 pytz/zoneinfo/Africa/Addis_Ababa
