@@ -5,11 +5,11 @@ Bug-Debian: http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=416202
 Forwarded: not-needed
 Last-Update: 2018-02-14
 
-Index: pytz-2018.3/pytz/tzfile.py
+Index: python-tz-2024.2/pytz/tzfile.py
 ===================================================================
---- pytz-2018.3.orig/pytz/tzfile.py
-+++ pytz-2018.3/pytz/tzfile.py
-@@ -126,7 +126,8 @@ def build_tzinfo(zone, fp):
+--- python-tz-2024.2.orig/pytz/tzfile.py
++++ python-tz-2024.2/pytz/tzfile.py
+@@ -125,7 +125,8 @@ def build_tzinfo(zone, fp):
  if __name__ == '__main__':
      import os.path
      from pprint import pprint
@@ -19,11 +19,11 @@ Index: pytz-2018.3/pytz/tzfile.py
      tz = build_tzinfo('Australia/Melbourne',
                        open(os.path.join(base, 'Australia', 'Melbourne'), 'rb'))
      tz = build_tzinfo('US/Eastern',
-Index: pytz-2018.3/pytz/__init__.py
+Index: python-tz-2024.2/pytz/__init__.py
 ===================================================================
---- pytz-2018.3.orig/pytz/__init__.py
-+++ pytz-2018.3/pytz/__init__.py
-@@ -94,7 +94,7 @@ def open_resource(name):
+--- python-tz-2024.2.orig/pytz/__init__.py
++++ python-tz-2024.2/pytz/__init__.py
+@@ -92,7 +92,7 @@ def open_resource(name):
      if zoneinfo_dir is not None:
          filename = os.path.join(zoneinfo_dir, *name_parts)
      else:

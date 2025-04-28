@@ -1,0 +1,113 @@
+From: Benjamin Drung <benjamin.drung@canonical.com>
+Date: Thu, 10 Aug 2023 14:04:08 +0200
+Subject: Replace legacy US/Eastern by America/New_York
+
+To avoid needing to depend on tzdata-legacy, replace the legacy timezone
+`US/Eastern` by `America/New_York`.
+
+Forwarded: https://github.com/stub42/pytz/pull/111
+Signed-off-by: Benjamin Drung <benjamin.drung@canonical.com>
+---
+ pytz/tests/test_tzinfo.py | 28 ++++++++++++++--------------
+ 1 file changed, 14 insertions(+), 14 deletions(-)
+
+Index: python-tz-2025.1/pytz/tests/test_tzinfo.py
+===================================================================
+--- python-tz-2025.1.orig/pytz/tests/test_tzinfo.py
++++ python-tz-2025.1/pytz/tests/test_tzinfo.py
+@@ -90,7 +90,7 @@ class BasicTest(unittest.TestCase):
+         # This tzinfo behavior is required to make
+         # datetime.time.{utcoffset, dst, tzname} work as documented.
+ 
+-        dst_tz = pytz.timezone('US/Eastern')
++        dst_tz = pytz.timezone('America/New_York')
+ 
+         # This information is not known when we don't have a date,
+         # so return None per API.
+@@ -98,7 +98,7 @@ class BasicTest(unittest.TestCase):
+         self.assertIsNone(dst_tz.dst(None))
+         # We don't know the abbreviation, but this is still a valid
+         # tzname per the Python documentation.
+-        self.assertEqual(dst_tz.tzname(None), 'US/Eastern')
++        self.assertEqual(dst_tz.tzname(None), 'America/New_York')
+ 
+     def clearCache(self):
+         pytz._tzinfo_cache.clear()
+@@ -108,12 +108,12 @@ class BasicTest(unittest.TestCase):
+         # and traditional strings, and that the desired singleton is
+         # returned.
+         self.clearCache()
+-        eastern = pytz.timezone(unicode('US/Eastern'))
+-        self.assertIs(eastern, pytz.timezone('US/Eastern'))
++        eastern = pytz.timezone(unicode('America/New_York'))
++        self.assertIs(eastern, pytz.timezone('America/New_York'))
+ 
+         self.clearCache()
+-        eastern = pytz.timezone('US/Eastern')
+-        self.assertIs(eastern, pytz.timezone(unicode('US/Eastern')))
++        eastern = pytz.timezone('America/New_York')
++        self.assertIs(eastern, pytz.timezone(unicode('America/New_York')))
+ 
+     def testStaticTzInfo(self):
+         # Ensure that static timezones are correctly detected,
+@@ -196,11 +196,11 @@ class PicklingTest(unittest.TestCase):
+         # where created with pytz2006j
+         east1 = pickle.loads(
+             _byte_string(
+-                "cpytz\n_p\np1\n(S'US/Eastern'\np2\nI-18000\n"
++                "cpytz\n_p\np1\n(S'America/New_York'\np2\nI-18000\n"
+                 "I0\nS'EST'\np3\ntRp4\n."
+             )
+         )
+-        east2 = pytz.timezone('US/Eastern').localize(
++        east2 = pytz.timezone('America/New_York').localize(
+             datetime(2006, 1, 1)).tzinfo
+         self.assertIs(east1, east2)
+ 
+@@ -220,7 +220,7 @@ class PicklingTest(unittest.TestCase):
+ 
+ 
+ class USEasternDSTStartTestCase(unittest.TestCase):
+-    tzinfo = pytz.timezone('US/Eastern')
++    tzinfo = pytz.timezone('America/New_York')
+ 
+     # 24 hours before DST changeover
+     transition_time = datetime(2002, 4, 7, 7, 0, 0, tzinfo=UTC)
+@@ -346,7 +346,7 @@ class USEasternDSTStartTestCase(unittest
+ 
+ 
+ class USEasternDSTEndTestCase(USEasternDSTStartTestCase):
+-    tzinfo = pytz.timezone('US/Eastern')
++    tzinfo = pytz.timezone('America/New_York')
+     transition_time = datetime(2002, 10, 27, 6, 0, 0, tzinfo=UTC)
+     before = {
+         'tzname': 'EDT',
+@@ -604,7 +604,7 @@ class ReferenceUSEasternDSTEndTestCase(U
+ 
+ class LocalTestCase(unittest.TestCase):
+     def testLocalize(self):
+-        loc_tz = pytz.timezone('US/Eastern')
++        loc_tz = pytz.timezone('America/New_York')
+ 
+         # End of DST ambiguity check
+         loc_time = loc_tz.localize(datetime(1918, 10, 27, 1, 59, 59), is_dst=1)
+@@ -663,7 +663,7 @@ class LocalTestCase(unittest.TestCase):
+                 self.assertEqual(loc_time.strftime(fmt), expected[not dst])
+ 
+     def testNormalize(self):
+-        tz = pytz.timezone('US/Eastern')
++        tz = pytz.timezone('America/New_York')
+         dt = datetime(2004, 4, 4, 7, 0, 0, tzinfo=UTC).astimezone(tz)
+         dt2 = dt - timedelta(minutes=10)
+         self.assertEqual(
+@@ -699,8 +699,8 @@ class CommonTimezonesTestCase(unittest.T
+         self.assertIn('Europe/Bratislava', pytz.common_timezones_set)
+ 
+     def test_us_eastern(self):
+-        self.assertIn('US/Eastern', pytz.common_timezones)
+-        self.assertIn('US/Eastern', pytz.common_timezones_set)
++        self.assertIn('America/New_York', pytz.common_timezones)
++        self.assertIn('America/New_York', pytz.common_timezones_set)
+ 
+     def test_belfast(self):
+         self.assertIn('Europe/Belfast', pytz.all_timezones_set)
