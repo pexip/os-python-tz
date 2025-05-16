@@ -2,7 +2,7 @@ Source: python-tz
 Section: python
 Priority: optional
 Maintainer: Pexip AS <packaging@pexip.com>
-XSBC-Pexip-Original-Maintainer: Debian  Python Team <team+python@tracker.debian.org>
+XSBC-Pexip-Original-Maintainer: Debian Python Team <team+python@tracker.debian.org>
 XSBC-Pexip-Original-Uploaders: Alastair McKinstry <mckinstry@debian.org>,
            Debian/Ubuntu Zope Team <pkg-zope-developers@lists.alioth.debian.org>,
            Fabio Tranchitella <kobold@debian.org>
