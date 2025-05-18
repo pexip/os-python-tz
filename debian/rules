@@ -30,4 +30,4 @@ override_dh_auto_test:
 	dh_auto_test -- --before-test="\
 		cp $(CURDIR)/src/README.rst {build_dir}; \
 		cp -r $(CURDIR)/src/pytz/tests {build_dir}/pytz/" \
-		--after-test="rm -rf {build_dir}/src/README.rst {build_dir}/pytz/tests"
+		--after-test="rm -rf {build_dir}/README.rst {build_dir}/pytz/tests"
