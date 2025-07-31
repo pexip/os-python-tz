@@ -4,8 +4,7 @@ Priority: optional
 Maintainer: Pexip AS <packaging@pexip.com>
 XSBC-Pexip-Original-Maintainer: Debian Python Team <team+python@tracker.debian.org>
 XSBC-Pexip-Original-Uploaders: Alastair McKinstry <mckinstry@debian.org>,
-           Debian/Ubuntu Zope Team <pkg-zope-developers@lists.alioth.debian.org>,
-           Fabio Tranchitella <kobold@debian.org>
+           Debian/Ubuntu Zope Team <pkg-zope-developers@lists.alioth.debian.org>
 Build-Depends: debhelper-compat (= 13),
                dh-sequence-python3,
                python3-all,
@@ -38,4 +37,4 @@ Depends: python3-pytz, ${misc:Depends}
 Architecture: all
 Section: oldlibs
 Description: transitional package to rename python3-tz
-  This is a transitional package. It can safely be removed.
+ This is a transitional package. It can safely be removed.
